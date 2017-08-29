@@ -1,0 +1,10 @@
+127.0.0.1 - - [30/Jun/2017:09:19:04 -0500] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:05 -0500] "GET /CreationContenido/VerPlantilla HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:15 -0500] "GET /CreationContenido/VerPlantilla HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:15 -0500] "GET /CreationContenido/AutentificaError HTTP/1.1" 200 3703
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:15 -0500] "GET /CreationContenido/css/style.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:17 -0500] "GET /CreationContenido/Autentifica HTTP/1.1" 200 3984
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:23 -0500] "POST /CreationContenido/Autentifica HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:23 -0500] "GET /CreationContenido/BusMat HTTP/1.1" 200 9828
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:23 -0500] "GET /CreationContenido/css/menu_component.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [30/Jun/2017:09:19:29 -0500] "POST /CreationContenido/BusMat HTTP/1.1" 200 16183

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Basic shuobject demo</title>
+  <script src="shumway-dist/shuobject.js"></script>
+  <script>
+    // Create/embed SWF movie.
+    shuobject.embedSWF('banner.swf', 'mainSWF', 800, 200, '9,0,10');
+    shuobject.embedSWF('audio1.swf', 'audio1SWF', 200, 200, '9,0,10');
+    shuobject.embedSWF('audio2.swf', 'audio2SWF', 200, 200, '9,0,10');
+  </script>
+</head>
+<body>
+  <h1>Demo</h1>
+	<table>
+		<tr>
+			<td>
+				<div id="mainSWF">Flash will be loaded here (it is similar to swfobject)</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="audio1SWF">Flash will be loaded here (it is similar to swfobject)</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="audio2SWF">Flash will be loaded here (it is similar to swfobject)</div> 
+			</td>
+		</tr>
+	</table>
+   
+   
+   
+</body>
+</html>
