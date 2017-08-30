@@ -76,7 +76,7 @@ public class Liberar extends HttpServlet {
 	/** Usuario **/
 	public Usuario usuario;
 
-	Configuracion config = new Configuracion();
+	Configuracion config;
 
     /**
      * @see HttpServletHttpServlet()
@@ -91,7 +91,7 @@ public class Liberar extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;
-			
+		config = new Configuracion();
     	try {
     		
     		usuario = new Usuario(request, response);
@@ -129,7 +129,7 @@ public class Liberar extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;	
-		
+		config = new Configuracion();
 		try {
     	
 			usuario = new Usuario(request, response);
