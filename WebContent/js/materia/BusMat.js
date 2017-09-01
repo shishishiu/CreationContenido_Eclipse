@@ -74,27 +74,19 @@ function funcSolicitar(cveMat, estadoSolicitud){
 	}
 	else if(estadoSolicitud == 4){
 		url = "EstaProduccion";
-		
-//		if(!confirm("¿La materia está en producción? Se va a cambiar el estado de solicitud por 'Está Producción'. Está bien?")){
-//			return;
-//		}
-//		
-//		document.getElementById("hiddenTipo").value = 6;
-//		document.forms["form1"].action = "BusMat?cveMat=" + cveMat;
-//	    document.forms["form1"].submit();
-//	    return;
 	}
 
 	else if(estadoSolicitud == 5){
+		url="DescargarOPendiente";
 		
-		if(!confirm("Se va a cambiar el estado de solicitud por 'Pendiente'. Está bien?")){
-			return;
-		}
-		
-		document.getElementById("hiddenTipo").value = 7;
-		document.forms["form1"].action = "BusMat?cveMat=" + cveMat;
-	    document.forms["form1"].submit();
-	    return;
+//		if(!confirm("Se va a cambiar el estado de solicitud por 'Pendiente'. Está bien?")){
+//			return;
+//		}
+//		
+//		document.getElementById("hiddenTipo").value = 7;
+//		document.forms["form1"].action = "BusMat?cveMat=" + cveMat;
+//	    document.forms["form1"].submit();
+//	    return;
 	}
 
 	

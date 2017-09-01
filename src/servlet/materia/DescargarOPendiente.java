@@ -9,7 +9,6 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -43,13 +42,13 @@ import util.conf.PdfNewPage;
 import util.db.MySqlConnector;
 
 /**
- * Servlet implementation class Validar
+ * Servlet implementation class DescargarOPendiente
  */
-@WebServlet("/Liberar")
-public class Liberar extends HttpServlet {
+@WebServlet("/DescargarOPendiente")
+public class DescargarOPendiente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	/** Nombre de la página **/
-	private final String NOMBRE_DE_PAGINA = "Liberar.jsp";
+	private final String NOMBRE_DE_PAGINA = "DescargarOPendiente.jsp";
 	/** Nombre del form de materias **/
 	private final String KEY_VARIABLE_MATERIA = "materia";
 	/** Nombre del form de materias **/
@@ -60,16 +59,36 @@ public class Liberar extends HttpServlet {
 	private final String KEY_VARIABLE_MESSAGE = "message";
 	/** Nombre del form del permiso **/
 	private final String KEY_VARIABLE_TIENE_AUTORIDAD = "tieneAutoridad";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_RADIO_DESCARGAR = "radioDescargar";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_RADIO_PENDIENTE = "radioPendiente";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_URL = "url";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_CARGO_LIBERACION = "cargoLiberacion";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_NOMBRE_LIBERACION = "nombreLiberacion";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_CARGO_FIRMA = "cargoFirma";
+	/** Nombre del form del permiso **/
+	private final String KEY_VARIABLE_PERSONA_FIRMA = "personaFirma";
 	/** Nombre del form del cveMat **/
 	private final String KEY_REQUEST_PARAM_CVE_MAT = "cveMat";
 	/** Nombre del form **/
+	private final String KEY_FORM_NOMBRE_LIBERACION = "nombreLiberacion";
+	/** Nombre del form **/
+	private final String KEY_FORM_CARGO_LIBERACION = "cargoLiberacion";
+	/** Nombre del form **/
+	private final String KEY_FORM_URL = "url";
+	/** Nombre del form **/
 	private final String KEY_FORM_NOTA2 = "nota2";
+	/** Nombre del form **/
+	private final String KEY_FORM_RESULTADO = "resultado";
 	/** Nombre del form **/
 	private final String KEY_FORM_HIDDEN_CVE_MAT = "hiddenCveMat";
 	/** Nombre del param **/
-	private final String KEY_TIPO_VALIDAR = "1";
-	/** Nombre del param **/
-	private final String KEY_TIPO_IMPRIMIR = "2";
+	private final String KEY_TIPO_DESCARGAR_O_PENDIENTE = "1";
 	/** Nombre del param **/
 	private final String KEY_TIPO_PREVIEW2 = "4";
 
@@ -81,7 +100,7 @@ public class Liberar extends HttpServlet {
     /**
      * @see HttpServletHttpServlet()
      */
-    public Liberar() {
+    public DescargarOPendiente() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -139,11 +158,20 @@ public class Liberar extends HttpServlet {
 	 			
 					String tipo = request.getParameter("hiddenTipo");
 
-					if(tipo.equals(KEY_TIPO_VALIDAR)){
-						LiberarMateria(request, response);
-						return;
-					}else if(tipo.equals(KEY_TIPO_IMPRIMIR)){
-						Imprimir(request, response);
+					if(tipo.equals(KEY_TIPO_DESCARGAR_O_PENDIENTE)){
+						
+						int resultado = Integer.parseInt(request.getParameter(KEY_FORM_RESULTADO));
+						String cveMat = request.getParameter(KEY_FORM_HIDDEN_CVE_MAT);
+						if(resultado == Common.ESTADO_DE_SOLICITUD_PENDIENTE){
+							
+							RegresarPendiente(request,cveMat, response);
+							
+						}else{
+							
+							Descargar(request, response);
+							
+						}
+						
 						return;
 					}else if(tipo.equals(KEY_TIPO_PREVIEW2)){
 						ImprimirPreview(2, request, response);
@@ -172,42 +200,7 @@ public class Liberar extends HttpServlet {
 	}
 	
 	
-	private void ImprimirPreview(int tipo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ByteArrayOutputStream baos = null;
-		
-		try{
-		
-			if(tipo == 1){
-				baos = ImprimirLiberacion(request);
-			}else{
-				baos = ImprimirCambioInformacion(request);				
-			}
-
-	        response.setHeader("Expires", "0");
-	        response.setHeader("Content-Type", "charset=UTF-8");
-	        response.setHeader("Content-disposition", "inline; filename=\"oficio.pdf\"");
-	        response.setContentType("application/pdf");
-	        
-	        OutputStream os = response.getOutputStream();
-	        os.write(baos.toByteArray());
-	        os.flush();
-	        os.close();
-
-	        
-		}catch(Exception e){
-			throw e;
-			
-		}finally{
-			if(baos != null){
-				baos.close();				
-			}
-			
-		}
-		
-	}
-
-	private void Imprimir(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	private void Descargar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ZipOutputStream zipOutStream = null;
 		ByteArrayOutputStream baos = null;
 		try{
@@ -263,9 +256,82 @@ public class Liberar extends HttpServlet {
 	    }
 
 	}
+
+	private void RegresarPendiente(HttpServletRequest request, String cveMat, HttpServletResponse response) throws Exception {
+		Connection con = MySqlConnector.getConnection();
+		try {
+			con.setAutoCommit(false);
+			
+			MateriaSolicitud bean = new MateriaSolicitud();
+			bean.setCveMat(cveMat);
+			bean.setResultado(0);
+			bean.setEstadoSolicitud(0);
+			bean.setUsuarioSolicitud(usuario.getCveUsu());
+			
+			bean.Insertar(con);
+			
+			Common.InsertLogAct(request, con, usuario.getCveUsu(), 
+					MessageFormat.format(Common.TEXTO_ACTION_LOG_REGRESAR_PENDIENTE,cveMat));
+	
+			
+			con.commit();
+			
+			Common.MsgJson("success", Common.MENSAJE_TERMINAR_PROCESO, response);
+			
+		} catch (SQLException e) {
+			if (con != null) {
+				con.rollback();
+			}			
+			throw e;
+		} finally{
+			if (con != null) {
+				con.setAutoCommit(true);
+				con.close();
+	        }			
+		}
+		
+	}
+
+	private void ImprimirPreview(int tipo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ByteArrayOutputStream baos = null;
+		
+		try{
+		
+			if(tipo == 1){
+				baos = ImprimirLiberacion(request);
+			}else{
+				baos = ImprimirCambioInformacion(request);				
+			}
+
+	        response.setHeader("Expires", "0");
+	        response.setHeader("Content-Type", "charset=UTF-8");
+	        response.setHeader("Content-disposition", "inline; filename=\"oficio.pdf\"");
+	        response.setContentType("application/pdf");
+	        
+	        OutputStream os = response.getOutputStream();
+	        os.write(baos.toByteArray());
+	        os.flush();
+	        os.close();
+
+	        
+		}catch(Exception e){
+			throw e;
+			
+		}finally{
+			if(baos != null){
+				baos.close();				
+			}
+			
+		}
+		
+	}
+
 	private ByteArrayOutputStream ImprimirLiberacion(HttpServletRequest request) throws Exception {
 		
 		String cveMat = request.getParameter(KEY_FORM_HIDDEN_CVE_MAT);
+		String url = request.getParameter(KEY_FORM_URL);
+		String personaLiberacion = request.getParameter(KEY_FORM_NOMBRE_LIBERACION);
+		String cargoLiberacion = request.getParameter(KEY_FORM_CARGO_LIBERACION);
 		Materia bean = Materia.Buscar(cveMat);
 		String spaceTab = "        ";
 
@@ -334,19 +400,13 @@ public class Liberar extends HttpServlet {
 	        Paragraph para = new Paragraph("El C. ", fontNormal);
 
 	        
-	        String jefe1Nombre = config.getJefe1Nombre();
-	        if(jefe1Nombre == null || jefe1Nombre.equals("")){
-	        	jefe1Nombre = usuario.getNomCompletoUsu().toUpperCase();
-	        }
-
-	        
-	        Chunk chunk = new Chunk(jefe1Nombre, fontNormal);
+	        Chunk chunk = new Chunk(personaLiberacion, fontNormal);
 	        chunk.setUnderline(1.5f, -2);
 	        para.add(chunk);
 	        
 	        para.add(new Chunk(" "));
 
-	        chunk = new Chunk("Jefa del Departamento de Desarrollo Académico", fontNormal);
+	        chunk = new Chunk(cargoLiberacion, fontNormal);
 	        chunk.setUnderline(0.5f, -2);
 	        para.add(chunk);
 
@@ -417,7 +477,7 @@ public class Liberar extends HttpServlet {
 	        		+ "de producción alojado en la siguiente URL: "));
 
 	        Font blue  = FontFactory.getFont("Century Gothic", 10, BaseColor.BLUE);
-        	chunk = new Chunk(config.getPruebaUrl(), blue);
+        	chunk = new Chunk(url, blue);
 	        chunk.setUnderline(0.5f, -2);
 	        para.add(chunk);
 	        para.add(new Chunk(Common.NEW_LINE + Common.NEW_LINE));
@@ -481,8 +541,8 @@ public class Liberar extends HttpServlet {
 	        tableFirma.addCell(cellTwo);
 	        
 	        
-	        PdfPCell cellOne2 = new PdfPCell(new Phrase(jefe1Nombre 
-	        		+ Common.NEW_LINE + config.getJefe1Departamento(), fontFirma));
+	        PdfPCell cellOne2 = new PdfPCell(new Phrase(personaLiberacion.toUpperCase()
+	        		+ Common.NEW_LINE + cargoLiberacion.toUpperCase(), fontFirma));
 	        cellOne2.setBorder(Rectangle.NO_BORDER);
 	        cellOne2.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
 	        tableFirma.addCell(cellOne2);
@@ -978,74 +1038,6 @@ public class Liberar extends HttpServlet {
 		return innertable;
 	}
 
-	private void LiberarMateria(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String cveMat = request.getParameter(KEY_FORM_HIDDEN_CVE_MAT);
-		
-		if(Validacion(request, cveMat, response)){
-
-			InsertarSolicitud(request, cveMat, response);
-
-		}
-	}
-
-	private boolean Validacion(HttpServletRequest request, String cveMat, HttpServletResponse response) throws Exception {
-		List<MateriaSolicitud> list = null;
-		
-		try {
-			
-			MateriaSolicitud bean = new MateriaSolicitud();
-			bean.setCveMat(cveMat);
-			list = bean.Buscar();
-			if(list.size()>0 && 
-					list.get(0).getEstadoSolicitud() != Common.ESTADO_DE_SOLICITUD_VALIDADO){
-				
-				Common.MsgJson("error", Common.MENSAJE_SOLICITAR_HA_LIBERADO, response);
-				return false;
-			
-			}
-			
-		} catch (Exception e) {
-			throw e;
-		}
-		return true;
-	}
-
-	private void InsertarSolicitud(HttpServletRequest request, String cveMat, HttpServletResponse response) throws Exception {
-
-		Connection con = MySqlConnector.getConnection();
-		try {
-			con.setAutoCommit(false);
-
-			MateriaSolicitud bean = new MateriaSolicitud();
-			bean.setCveMat(cveMat);
-			bean.setEstadoSolicitud(Common.ESTADO_DE_SOLICITUD_LIBERADO);
-			bean.setResultado(Common.ESTADO_DE_SOLICITUD_LIBERADO);
-			bean.setUsuarioSolicitud(usuario.getCveUsu());
-			
-			bean.Insertar(con);
-			
-			Common.InsertLogAct(request, con, usuario.getCveUsu(), 
-					MessageFormat.format(Common.TEXTO_ACTION_LOG_LIBERAR,cveMat));
-	
-			
-			con.commit();
-			
-			Common.MsgJson("success", Common.MENSAJE_TERMINAR_PROCESO, response);
-			
-		} catch (SQLException e) {
-			if (con != null) {
-				con.rollback();
-			}			
-			throw e;
-		} finally{
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-	        }			
-		}
-
-	}
-
 	/**
 	 * Set form de la pantalla
 	 * @param request
@@ -1071,6 +1063,19 @@ public class Liberar extends HttpServlet {
 	        request.setAttribute(KEY_VARIABLE_FECHA_SOLICITUD, sdf1.format(date));
 	
    			request.setAttribute(KEY_VARIABLE_TIENE_AUTORIDAD, true);
+
+			request.setAttribute(KEY_VARIABLE_RADIO_DESCARGAR, 9);
+			request.setAttribute(KEY_VARIABLE_RADIO_PENDIENTE, Common.ESTADO_DE_SOLICITUD_PENDIENTE);
+			request.setAttribute(KEY_VARIABLE_URL, config.getPruebaUrl());
+			
+	        String jefe1Nombre = config.getJefe1Nombre();
+	        if(jefe1Nombre == null || jefe1Nombre.equals("")){
+	        	jefe1Nombre = usuario.getNomCompletoUsu();
+	        }
+			request.setAttribute(KEY_VARIABLE_NOMBRE_LIBERACION, jefe1Nombre);
+			request.setAttribute(KEY_VARIABLE_CARGO_LIBERACION, config.getJefe1Departamento());
+			request.setAttribute(KEY_VARIABLE_PERSONA_FIRMA, config.getJefe2Nombre());
+			request.setAttribute(KEY_VARIABLE_CARGO_FIRMA, config.getJefe2Departamento());
 
 			
 		} catch (Exception e) {

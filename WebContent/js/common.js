@@ -7,6 +7,21 @@
 $(window).resize(function () {
 	funcResizeMain();
 	
+	$.datepicker.setDefaults({
+	    monthNames: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dec'],
+    	dayNamesMin: [ "Do", "Lu", "Mar", "Mie", "Jue", "Vie", "Sab" ],
+        numberOfMonths: 3,
+        showCurrentAtPos: 2,
+        stepMonths: 3,
+        maxDate: '0',
+        dateFormat:'dd/mm/yy',
+        buttonImage: "images/calendar.png",
+        buttonImageOnly: true,
+        buttonText: "calendar",
+        showOn: "button"
+	})
+	
+
 });
 
 /**

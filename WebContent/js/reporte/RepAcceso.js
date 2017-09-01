@@ -18,20 +18,6 @@ $(function(){
 			$(this).removeClass("highlight");
 		});
 	
-	$.datepicker.setDefaults({
-	    monthNames: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dec'],
-    	dayNamesMin: [ "Do", "Lu", "Mar", "Mie", "Jue", "Vie", "Sab" ],
-        numberOfMonths: 3,
-        showCurrentAtPos: 2,
-        stepMonths: 3,
-        maxDate: '0',
-        dateFormat:'dd/mm/yy',
-        buttonImage: "images/calendar.png",
-        buttonImageOnly: true,
-        buttonText: "calendar",
-        showOn: "button"
-	})
-	
 	$('#fechaEntradaInicial').datepicker({
 		onSelect: function(dateStr) {
 			var min = $(this).datepicker('getDate') || new Date();
