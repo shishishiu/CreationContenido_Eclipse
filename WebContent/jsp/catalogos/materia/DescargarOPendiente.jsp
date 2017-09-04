@@ -51,7 +51,7 @@
 	                       </tr>
 	                         <tr class="descargar">
 	                            <th width="30%25" class="right">Fecha de Ponerse en Producción</th>
-	                            <td width="70%25" class="left"><input type="text" id="fechaProduccion"/></td>
+	                            <td width="70%25" class="left"><input type="text" id="fechaProduccion" name="fechaProduccion"/></td>
 	                        </tr>
 	                         <tr class="descargar">
 	                            <th width="30%25" class="right">URL de Producción</th>

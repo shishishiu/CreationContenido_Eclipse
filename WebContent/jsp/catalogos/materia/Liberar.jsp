@@ -36,13 +36,13 @@
 	                            <th width="30%25" class="right">Persona de Liberación</th>
 	                            <td width="70%25" class="left">${usuario.cveUsu} ${usuario.nomUsu}</td>
 	                       </tr>
-	                        <tr>
+	                        <!-- <tr>
 	                           <th width="30%25" class="right">Nota de cambios de información</th>
 	                           <td width="70%25" class="left">
 	                                <textarea cols="50" rows="6" id="nota2" name="nota2">${nota2}</textarea>
 	                                <input type="button" value="Vista Previa" class="botonimagenchico" onclick="funcPreviewNota2()"/>
 	                           </td>
-	                       </tr>
+	                       </tr> -->
 	                       <tr>
 	                           <th width="30%25" class="right" colspan="2">
 	                               La materia

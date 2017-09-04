@@ -80,6 +80,12 @@ public class DescargarOPendiente extends HttpServlet {
 	/** Nombre del form **/
 	private final String KEY_FORM_CARGO_LIBERACION = "cargoLiberacion";
 	/** Nombre del form **/
+	private final String KEY_FORM_NOMBRE_FIRMA = "personaFirma";
+	/** Nombre del form **/
+	private final String KEY_FORM_CARGO_FIRMA = "cargoFirma";
+	/** Nombre del form **/
+	private final String KEY_FORM_FECHA_PRODUCCION = "fechaProduccion";
+	/** Nombre del form **/
 	private final String KEY_FORM_URL = "url";
 	/** Nombre del form **/
 	private final String KEY_FORM_NOTA2 = "nota2";
@@ -117,7 +123,6 @@ public class DescargarOPendiente extends HttpServlet {
     		if(usuario.IsAutorizado()) {
 				if(usuario.getPerUsu() == Common.PERMISO_ADMINISTRADOR ||
 						usuario.getPerUsu() == Common.PERMISO_ADMINISTRADOR_GENERAL){
-	    			Iniciar();
 	    			SetForm(request);
 		    		
 		    		} else{
@@ -135,12 +140,6 @@ public class DescargarOPendiente extends HttpServlet {
 			Common.Error(e);
 			response.sendRedirect(getServletConfig().getServletContext().getContextPath() + Common.getErrorPage());
 		}
-	}
-
-	/**
-	 * Iniciar
-	 */
-	private void Iniciar() {
 	}
 
 	/**
@@ -332,6 +331,12 @@ public class DescargarOPendiente extends HttpServlet {
 		String url = request.getParameter(KEY_FORM_URL);
 		String personaLiberacion = request.getParameter(KEY_FORM_NOMBRE_LIBERACION);
 		String cargoLiberacion = request.getParameter(KEY_FORM_CARGO_LIBERACION);
+		String personaFirma = request.getParameter(KEY_FORM_NOMBRE_FIRMA);
+		String cargoFirma = request.getParameter(KEY_FORM_CARGO_FIRMA);
+		
+		String fechaProduccion = request.getParameter(KEY_FORM_FECHA_PRODUCCION);
+				
+		
 		Materia bean = Materia.Buscar(cveMat);
 		String spaceTab = "        ";
 
@@ -472,7 +477,7 @@ public class DescargarOPendiente extends HttpServlet {
 	        		+ Common.NEW_LINE + Common.NEW_LINE, fontNormal));
 	        
 	        para.add(new Chunk(spaceTab + spaceTab + 
-	        		"Se pondrá en producción a partir del día 11 de Julio del presente año en el siguiente servidor" 
+	        		"Se pondrá en producción a partir del día "+ fechaProduccion + " del presente año en el siguiente servidor" 
 	        		+ Common.NEW_LINE + spaceTab + spaceTab 
 	        		+ "de producción alojado en la siguiente URL: "));
 
@@ -549,8 +554,8 @@ public class DescargarOPendiente extends HttpServlet {
 	
 	        tableFirma.addCell(cellBlank);
 	
-	        PdfPCell cellTwo2 = new PdfPCell(new Phrase(config.getJefe2Nombre()
-	        		+ Common.NEW_LINE + config.getJefe2Departamento(), fontFirma));
+	        PdfPCell cellTwo2 = new PdfPCell(new Phrase(personaFirma.toUpperCase()
+	        		+ Common.NEW_LINE + cargoFirma.toUpperCase(), fontFirma));
 	        cellTwo2.setBorder(Rectangle.NO_BORDER);
 	        cellTwo2.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
 	        tableFirma.addCell(cellTwo2);
@@ -572,6 +577,13 @@ public class DescargarOPendiente extends HttpServlet {
 	private ByteArrayOutputStream ImprimirCambioInformacion(HttpServletRequest request) throws Exception {
 
 		String cveMat = request.getParameter(KEY_FORM_HIDDEN_CVE_MAT);
+
+		String personaLiberacion = request.getParameter(KEY_FORM_NOMBRE_LIBERACION);
+		String cargoLiberacion = request.getParameter(KEY_FORM_CARGO_LIBERACION);
+		String personaFirma = request.getParameter(KEY_FORM_NOMBRE_FIRMA);
+		String cargoFirma = request.getParameter(KEY_FORM_CARGO_FIRMA);
+
+		
 		Materia bean = Materia.Buscar(cveMat);
 
       
@@ -634,26 +646,30 @@ public class DescargarOPendiente extends HttpServlet {
         cell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("Nombre: " + usuario.getNomCompletoUsu()));
+//        cell = new PdfPCell(new Phrase("Nombre: " + personaLiberacion));
+        cell = new PdfPCell(new Phrase(personaLiberacion.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Nombre: " + usuario.getNomCompletoUsu()));
-        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Cargo: "));
-        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Cargo: "));
+//        cell = new PdfPCell(new Phrase("Nombre: " + personaFirma));
+        cell = new PdfPCell(new Phrase(personaFirma.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("Área: "));
+//        cell = new PdfPCell(new Phrase("Cargo: "));
+        cell = new PdfPCell(new Phrase(cargoLiberacion.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Área: "));
+//        cell = new PdfPCell(new Phrase("Cargo: "));
+        cell = new PdfPCell(new Phrase(cargoFirma.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
+
+//        cell = new PdfPCell(new Phrase("Área: "));
+//        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
+//        table.addCell(cell);
+//        cell = new PdfPCell(new Phrase("Área: "));
+//        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
+//        table.addCell(cell);
         
         document.add(table);
         //-----tabla de datos del area administrativa solicitante
@@ -1006,16 +1022,16 @@ public class DescargarOPendiente extends HttpServlet {
         	jefe1Nombre = usuario.getNomCompletoUsu().toUpperCase();
         }
 
-        PdfPCell cellOne2 = new PdfPCell(new Phrase(jefe1Nombre + Common.NEW_LINE
-        		+ config.getJefe1Departamento()));
+        PdfPCell cellOne2 = new PdfPCell(new Phrase(personaLiberacion.toUpperCase() + Common.NEW_LINE
+        		+ cargoLiberacion.toUpperCase()));
         cellOne2.setBorder(Rectangle.NO_BORDER);
         cellOne2.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         tableFirma.addCell(cellOne2);
 
         tableFirma.addCell(cellBlank);
 
-        PdfPCell cellTwo2 = new PdfPCell(new Phrase(config.getJefe2Nombre() + Common.NEW_LINE
-        		+ config.getJefe2Departamento()));
+        PdfPCell cellTwo2 = new PdfPCell(new Phrase(personaFirma.toUpperCase() + Common.NEW_LINE
+        		+ cargoFirma.toUpperCase()));
         cellTwo2.setBorder(Rectangle.NO_BORDER);
         cellTwo2.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         tableFirma.addCell(cellTwo2);

@@ -2,7 +2,13 @@ $(function() {
 	iniciaMessageDialog();
 	funcResizeMain();
 
-	$('#fechaProduccion').datepicker();
+	$('#fechaProduccion').datepicker(
+			{
+				dateFormat:"d 'de' MM",
+			    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agost','Septiembre','Octubre','Noviembre','Diciembre'],
+		    	dayNamesMin: [ "Do", "Lu", "Mar", "Mie", "Jue", "Vie", "Sab" ]
+			}
+			);
 
 	
 });
@@ -53,12 +59,12 @@ function funcEnviar(){
 	if(resultado==9){
 		funcImprimir();
 	}else{
-		funcPendiente();
+		funcPendiente(cveMat, resultado);
 	}
 	
 }
 
-function funcPendiente(){
+function funcPendiente(cveMat, resultado){
 	$.ajax({
 		  method: "POST",
 		  url: "DescargarOPendiente",
@@ -105,6 +111,11 @@ function funcPendiente(){
 }
 
 function funcImprimir(){
+	
+	if(document.getElementById("fechaProduccion").value == null || document.getElementById("fechaProduccion").value == ""){
+		alert("Ingresa Fecha de Ponerse en Producción, por favor");
+		return;
+	}
 	document.getElementById("hiddenTipo").value = 1;
 	document.forms["form1"].action = "DescargarOPendiente";
     document.forms["form1"].submit();
