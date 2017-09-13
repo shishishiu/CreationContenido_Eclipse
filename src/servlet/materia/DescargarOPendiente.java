@@ -406,7 +406,7 @@ public class DescargarOPendiente extends HttpServlet {
 
 	        
 	        Chunk chunk = new Chunk(personaLiberacion, fontNormal);
-	        chunk.setUnderline(1.5f, -2);
+	        chunk.setUnderline(0.5f, -2);
 	        para.add(chunk);
 	        
 	        para.add(new Chunk(" "));
@@ -434,16 +434,12 @@ public class DescargarOPendiente extends HttpServlet {
 	          //-----row 1
 	          //-----row 2
 	        
-	        String materiaInf = bean.getNomNivel() + " " + bean.getNomMat(); 
-	        String menu = bean.getCveMat() + "  " + bean.getNomMat() 
-	        + Common.NEW_LINE + bean.getNomNivel() + " Modulo " + bean.getModulo()
+	        String menu = bean.getNomNivel() + " " + bean.getNomMat()
+	        + Common.NEW_LINE + " Módulo " + bean.getModulo()
 	        + Common.NEW_LINE + TrcnMat.CreaMenuPDF(bean, 0, 0);
 
 	        PdfPTable innerTable = new PdfPTable(1);
-	        PdfPCell innerCell = new PdfPCell(new Phrase(materiaInf, fontNormal));
-	        innerCell.setBorder(PdfPCell.NO_BORDER);
-	        innerTable.addCell(innerCell);
-	        innerCell = new PdfPCell(new Phrase(menu, fontNormal));
+	        PdfPCell innerCell = new PdfPCell(new Phrase(menu, fontNormal));
 	        innerCell.setBorder(PdfPCell.NO_BORDER);
 	        innerTable.addCell(innerCell);
 	        
@@ -463,18 +459,30 @@ public class DescargarOPendiente extends HttpServlet {
 	          //-----row 3
 
 	          //-----row 4
-	        para = new Paragraph(spaceTab + spaceTab 
+	        cell = new PdfPCell(new Phrase(spaceTab + spaceTab 
 	        		+ "Se hace entrega de la siguientes contenidos:" 
-	        		+ Common.NEW_LINE + spaceTab + spaceTab + spaceTab, fontNormal);
-	        chunk = new Chunk(materiaInf, fontNormal);
-	        chunk.setUnderline(0.5f, -2);
-	        para.add(chunk);
+	        		+ Common.NEW_LINE + spaceTab + spaceTab + spaceTab, fontNormal));
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        table.addCell(cell);
+
+	        innerTable = new PdfPTable(1);
+	        innerCell = new PdfPCell(new Phrase(menu, fontNormal));
+	        innerCell.setBorder(PdfPCell.NO_BORDER);
+	        innerTable.addCell(innerCell);
 	        
-	        para.add(new Chunk(Common.NEW_LINE + Common.NEW_LINE + spaceTab + spaceTab 
+	        cell = new PdfPCell();
+	        cell.setBorder(PdfPCell.NO_BORDER);
+	        cell.addElement(innerTable);
+	        table.addCell(cell);
+	        cell.addElement(innerTable);
+	        
+	        
+	        para = new Paragraph(spaceTab + spaceTab 
 	        		+ "Los módulos liberados satisfacen con los requerimientos de manera precisa, es flexible,"
 	        		+ Common.NEW_LINE + spaceTab + spaceTab 
 	        		+ "funcional y satisface las necesidades y se acepta la migración a producción."
-	        		+ Common.NEW_LINE + Common.NEW_LINE, fontNormal));
+	        		+ Common.NEW_LINE + Common.NEW_LINE, fontNormal);
+	        
 	        
 	        para.add(new Chunk(spaceTab + spaceTab + 
 	        		"Se pondrá en producción a partir del día "+ fechaProduccion + " del presente año en el siguiente servidor" 
@@ -844,7 +852,7 @@ public class DescargarOPendiente extends HttpServlet {
         table.setLockedWidth(true);
         table.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         table.setSpacingBefore(20);
-        cell = new PdfPCell(new Phrase("ORIGEN DE LA SOLICITUD DEK CONSULTA/CAMBIO"));
+        cell = new PdfPCell(new Phrase("ORIGEN DE LA SOLICITUD DE CONSULTA/CAMBIO"));
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         cell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         cell.setColspan(3);
@@ -919,13 +927,12 @@ public class DescargarOPendiente extends HttpServlet {
         cell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         table.addCell(cell);
         
-        cell = new PdfPCell(new Phrase(bean.getCveMat() + "  " + bean.getNomMat() 
-        + Common.NEW_LINE + bean.getNomNivel() + " Modulo " + bean.getModulo()));
+        cell = new PdfPCell(new Phrase(bean.getNomNivel() + "  " + bean.getNomMat() 
+        + Common.NEW_LINE + " Modulo " + bean.getModulo()
+        + Common.NEW_LINE + TrcnMat.CreaMenuPDF(bean, 0, 0)));
         cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
         table.addCell(cell);
 
-        TrcnMat.CreaMenuPDF(bean, 0, 0, table);
-    
 		PdfPRow row = table.getRow(table.size()-1);
 		PdfPCell[] cellarray = row.getCells();
 		cellarray[0].setBorder(Rectangle.LEFT | Rectangle.RIGHT | Rectangle.BOTTOM);

@@ -61,7 +61,7 @@
                             <td width="70%25" class="left">${materia.nomNivel}</td>
                         </tr>
                         <tr>
-                            <th width="30%25" class="right">Modulo</th>
+                            <th width="30%25" class="right">Módulo</th>
                             <td width="70%25" class="left">${materia.modulo}</td>
                         </tr>
                     </table>                   

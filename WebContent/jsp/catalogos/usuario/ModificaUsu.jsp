@@ -54,13 +54,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th width="30%25" class="right">Apellido Padrino</th>
+                                <th width="30%25" class="right">Apellido Paterno</th>
                                 <td width="60%25" class="left">
                                 	<input type="text" size="50" value="${usu.nomPatUsu}" name="nomPatUsu" id="nomPatUsu"/>
                                 </td>
                             </tr>
                             <tr>
-                                <th width="30%25" class="right">Apellido Madrino</th>
+                                <th width="30%25" class="right">Apellido Materno</th>
                                 <td width="60%25" class="left">
                                 	<input type="text" size="50" value="${usu.nomMatUsu}" name="nomMatUsu" id="nomMatUsu"/>
                                 </td>

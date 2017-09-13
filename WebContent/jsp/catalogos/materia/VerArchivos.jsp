@@ -78,7 +78,7 @@
 	                	<tr>
 	           	            <th width="15%25" class="right">Clave</th>
 							<td width="35%25" class="left">${materia.cveMat}</td>
-							<th width="15%25" class="right">Modulo</th>
+							<th width="15%25" class="right">Módulo</th>
 	                        <td width="35%25" class="left">${materia.modulo}</td>	
 	                    </tr>
 	                    <tr>

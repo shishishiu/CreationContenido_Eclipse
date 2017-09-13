@@ -33,7 +33,7 @@
 			                        </c:forEach>
 			                       </select>
 		                   		</td>
-		                   		<th>Modulo</th>
+		                   		<th>Módulo</th>
 		                   		<td>		                   			
 		                   			<c:forEach var="moduloList" items="${modulos}" varStatus="status">
 										<select id="modulo${status.index+1}" name="modulo${status.index+1}">
@@ -87,7 +87,7 @@
 			            <table class="list1 green">
 			               <tr>
 			                   <th width="20%25" colspan="2">Nivel</th>
-			                   <th width="5%25">Modulo</th>
+			                   <th width="5%25">Módulo</th>
 			                   <th width="10%25">Clave</th>
 			                   <th width="30%25">Nombre de la Materia</th>
 			                   <th width="10%25">Solicitud</th>

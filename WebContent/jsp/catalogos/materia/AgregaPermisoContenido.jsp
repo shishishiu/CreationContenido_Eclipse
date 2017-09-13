@@ -30,7 +30,7 @@
 	                            <td width="85%25"class="left" colspan="3">${materia.nomNivel} ${materia.nomNivelGrado}</td>
 	                        </tr>
 							<tr>
-								<th width="15%25" class="right">Modulo</th>
+								<th width="15%25" class="right">Módulo</th>
 	                            <td width="85%25" class="left">${materia.modulo}</td>	
 	                        </tr>
 		                     <tr>

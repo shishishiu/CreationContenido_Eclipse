@@ -43,14 +43,14 @@
 	                            <td width="70%25" class="left">${fechaSolicitud}</td>
 	                        </tr>
 	                        <tr class="descargar">
-	                            <th width="30%25" class="right">Persona de Liberación</th>
+	                            <th width="30%25" class="right">Solicitante</th>
 	                            <td width="70%25" class="left">
 	                            	<input type="text" value="${nombreLiberacion}" size="70" name="nombreLiberacion"/>
 	                            	<input type="text" value="${cargoLiberacion}" size="70" name="cargoLiberacion"/>
 	                            </td>
 	                       </tr>
 	                         <tr class="descargar">
-	                            <th width="30%25" class="right">Fecha de Ponerse en Producción</th>
+	                            <th width="30%25" class="right">Fecha para Producción</th>
 	                            <td width="70%25" class="left"><input type="text" id="fechaProduccion" name="fechaProduccion"/></td>
 	                        </tr>
 	                         <tr class="descargar">
@@ -58,7 +58,7 @@
 	                            <td width="70%25" class="left"><input type="text" size="70" name="url" value="${url}"/></td>
 	                        </tr>
 	                        <tr class="descargar">
-	                            <th width="30%25" class="right">Persona de Firma</th>
+	                            <th width="30%25" class="right">Autoriza</th>
 	                            <td width="70%25" class="left">
 	                            	<input type="text" value="${personaFirma}" size="70" name="personaFirma"/>
 	                            	<input type="text" value="${cargoFirma}" size="70" name="cargoFirma"/>
@@ -95,7 +95,7 @@
 	                            <td width="70%25" class="left">${materia.nomNivel}</td>
 	                        </tr>
 	                        <tr>
-	                            <th width="30%25" class="right">Modulo</th>
+	                            <th width="30%25" class="right">Módulo</th>
 	                            <td width="70%25" class="left">${materia.modulo}</td>
 	                        </tr>
 	                    </table>                   

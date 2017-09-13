@@ -66,7 +66,7 @@
 				                </td>
                             </tr>
                            <tr>
-                                <th width="30%25" class="right">Modulo</th>
+                                <th width="30%25" class="right">Módulo</th>
                                 <td width="60%25" class="left">
                                 	<input type="text" size="20" value="${materia.modulo}" name="semestre" id="semestre"/>
                                 </td>

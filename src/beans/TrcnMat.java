@@ -262,54 +262,6 @@ public class TrcnMat implements Serializable {
 		}		return str.toString();
 	}
 
-	public static void CreaMenuPDF(Materia beanMat, int idPadre, int jerarquía, PdfPTable table) throws Exception {
-		Connection con = null;
-		PreparedStatement preparedStatement = null;
-
-		try {			
-			
-			con = MySqlConnector.getConnection();
-			preparedStatement = con.prepareStatement(queryMenu);
-			preparedStatement.setInt(1, idPadre);
-			preparedStatement.setString(2, beanMat.getCveMat());
-			ResultSet rs = preparedStatement.executeQuery();   
-
-			jerarquía++;
-
-			while (rs.next())
-			{
-				TrcnMat bean = new TrcnMat();
-				bean.menuItem = rs.getInt("menu_item");
-				bean.cveMat = rs.getString("Materia");
-				bean.caption = rs.getString("caption");
-				bean.handler = rs.getString("handler");
-				bean.menuItemParentId = rs.getInt("menu_item_parent_id");
-				bean.unidad = rs.getInt("unidad");
-				bean.apartado = rs.getInt("apartado");
-
-				String blank = "";
-				for(int i=0;i<jerarquía; i++){
-					blank += "  ";
-				}
-				
-				PdfPCell cell = new PdfPCell(new Phrase(blank + "  - " + bean.caption + "("+bean.handler+") \r\n"));
-				cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
-				table.addCell(cell);
-				
-				CreaMenuPDF(beanMat, bean.menuItem, jerarquía, table);
-           }
-				
-		} catch (SQLException e) {
-			throw e;
-		} finally{
-			if (preparedStatement != null) {
-				preparedStatement.close();
-	        }
-			if (con != null) {
-				con.close();
-	        }
-		}
-	}
 
 	public static String CreaMenuPDF(Materia beanMat, int idPadre, int jerarquía) throws Exception {
 		Connection con = null;
@@ -342,7 +294,12 @@ public class TrcnMat implements Serializable {
 					blank += "  ";
 				}
 				
-				str.append(blank + "  - " + bean.caption + "("+bean.handler+") \r\n");
+				str.append(blank + "  - " + bean.caption);
+				if(bean.handler != null && !bean.handler.equals("")){
+					str.append("("+bean.handler+") ");
+					
+				}
+				str.append(Common.NEW_LINE);
 				
 				str.append(CreaMenuPDF(beanMat, bean.menuItem, jerarquía));
            }

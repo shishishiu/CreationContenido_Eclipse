@@ -203,15 +203,15 @@ public class ModificaUsu extends HttpServlet {
 			}
 			
 			if(request.getParameter(KEY_FORM_NOM_PAT) == null || request.getParameter(KEY_FORM_NOM_PAT).equals("")){
-				message += "Ingresa el nombre padrino, por favor <br>";
+				message += "Ingresa el nombre paterno, por favor <br>";
 			} else if(request.getParameter(KEY_FORM_NOM_PAT).length() > 50){
-				message += "Ingresa menos de 50 letras en el nombre padrino, por favor<br>";
+				message += "Ingresa menos de 50 letras en el nombre paterno, por favor<br>";
 			}
 
 			if(request.getParameter(KEY_FORM_NOM_MAT) == null || request.getParameter(KEY_FORM_NOM_MAT).equals("")){
-				message += "Ingresa el nombre madrino, por favor <br>";
+				message += "Ingresa el nombre materno, por favor <br>";
 			} else if(request.getParameter(KEY_FORM_NOM_MAT).length() > 50){
-				message += "Ingresa menos de 50 letras en el nombre madrino, por favor<br>";
+				message += "Ingresa menos de 50 letras en el nombre materno, por favor<br>";
 			}
 
 			if(request.getParameter(KEY_FORM_PERMISO) == null || request.getParameter(KEY_FORM_PERMISO).equals("-1")){

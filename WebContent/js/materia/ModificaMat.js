@@ -123,12 +123,12 @@ function isValidado(){
 	var elemModulo = document.getElementById("semestre");
 	var modulo = elemModulo.value;
 	if(modulo == ""){
-		alert("Ingresa modulo, por favor.");
+		alert("Ingresa módulo, por favor.");
 		elemModulo.focus();
 		return false;
 	}
 	if(isNaN(modulo) || modulo <= 0 || modulo > 999){
-		alert("Ingresa numero que más de 0 a 999 en el modulo grado, por favor.");
+		alert("Ingresa numero que más de 0 a 999 en el módulo grado, por favor.");
 		elemModulo.focus();
 		return false;
 	}
