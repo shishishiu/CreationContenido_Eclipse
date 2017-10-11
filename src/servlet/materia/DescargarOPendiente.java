@@ -654,30 +654,21 @@ public class DescargarOPendiente extends HttpServlet {
         cell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
         table.addCell(cell);
 
-//        cell = new PdfPCell(new Phrase("Nombre: " + personaLiberacion));
         cell = new PdfPCell(new Phrase(personaLiberacion.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
-//        cell = new PdfPCell(new Phrase("Nombre: " + personaFirma));
+
         cell = new PdfPCell(new Phrase(personaFirma.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
 
-//        cell = new PdfPCell(new Phrase("Cargo: "));
         cell = new PdfPCell(new Phrase(cargoLiberacion.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
-//        cell = new PdfPCell(new Phrase("Cargo: "));
+
         cell = new PdfPCell(new Phrase(cargoFirma.toUpperCase()));
         cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
         table.addCell(cell);
-
-//        cell = new PdfPCell(new Phrase("Área: "));
-//        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
-//        table.addCell(cell);
-//        cell = new PdfPCell(new Phrase("Área: "));
-//        cell.setHorizontalAlignment(Rectangle.ALIGN_LEFT);
-//        table.addCell(cell);
         
         document.add(table);
         //-----tabla de datos del area administrativa solicitante
@@ -936,15 +927,7 @@ public class DescargarOPendiente extends HttpServlet {
 		PdfPRow row = table.getRow(table.size()-1);
 		PdfPCell[] cellarray = row.getCells();
 		cellarray[0].setBorder(Rectangle.LEFT | Rectangle.RIGHT | Rectangle.BOTTOM);
-		
-//		row = table.getRow(table.size()-1);
-//		cellarray = row.getCells();
-//		cellarray[0].setBorder(Rectangle.LEFT | Rectangle.RIGHT | Rectangle.TOP);
-//		
 		ArrayList<PdfPRow> rowArray = table.getRows();
-//		row = table.getRow(rowArray.size()-1);
-//		cellarray = row.getCells();
-//		cellarray[0].setBorder(Rectangle.LEFT | Rectangle.RIGHT | Rectangle.BOTTOM);        
 		    
 		document.add(table);
         
